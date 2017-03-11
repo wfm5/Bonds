@@ -30,7 +30,7 @@ public class TextSet : MonoBehaviour {
 
     public void SetParams(int pos, float c_delay, string txt)
     {
-        Debug.Log("Hi");
+        //Debug.Log("Hi");
         delay = c_delay;
         buffer = txt;
         set_pos = pos;
@@ -47,7 +47,7 @@ public class TextSet : MonoBehaviour {
     {
         if (rect_pos != null)
         {
-            print("Flags & Rect present");
+            //print("Flags & Rect present");
             switch (set_pos)
             {
                 case 1:
@@ -89,6 +89,6 @@ public class TextSet : MonoBehaviour {
         {
             isDone = true;
         }
-        Debug.Log(rect_pos.position);
+        //Debug.Log(rect_pos.position);
     }
 }

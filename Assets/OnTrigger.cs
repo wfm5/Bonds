@@ -39,7 +39,7 @@ public class OnTrigger : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        print("Collided");
+        //print("Collided");
         if(col.gameObject.name == "Player")
         {
             if (Started == false)
