@@ -10,9 +10,10 @@ public class OnTrigger : MonoBehaviour {
     public string FileName;
     bool Started = false;
     string buffer = "";
+    string[] str_lst;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         trigger = GetComponent<EventTrigger>();
         if (FileName.Length > 0 )
         {
@@ -22,7 +23,8 @@ public class OnTrigger : MonoBehaviour {
 
     void PopulateEventSystem(string filename)
     {
-        string[] str_lst = File.ReadAllLines(filename);
+        str_lst = File.ReadAllLines(filename);
+        /*
         for (int i = 0; i < str_lst.Length; i++)
         {
             if (str_lst[i].Length > 0)
@@ -32,6 +34,7 @@ public class OnTrigger : MonoBehaviour {
                 entry.callback.AddListener((data) => { glob.AddToQ(str_lst[i]); } );
             }
         }
+        */
     }
 
     void OnTriggerEnter(Collider col)
@@ -39,10 +42,14 @@ public class OnTrigger : MonoBehaviour {
         print("Collided");
         if(col.gameObject.name == "Player")
         {
-            if(Started == false)
+            if (Started == false)
             {
                 Started = true;
-                trigger.OnSubmit(null);
+                for(int i = 0; i < str_lst.Length; i++)
+                {
+                    glob.AddToQ(str_lst[i]);
+                }
+                
             }
         }
     }

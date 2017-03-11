@@ -25,6 +25,7 @@ public class Globals : MonoBehaviour {
     {
         print("Add To Q Called");
         BoxQ.Enqueue(str);
+        print(BoxQ.ToArray().ToString());
     }
 
 	// Update is called once per frame

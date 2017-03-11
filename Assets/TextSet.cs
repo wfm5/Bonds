@@ -35,6 +35,7 @@ public class TextSet : MonoBehaviour {
         buffer = txt;
         set_pos = pos;
         flag_set = 1;
+        isDone = false;
     }
 
     public void ClearText()
