@@ -17,8 +17,8 @@ public class UI_Handler : MonoBehaviour {
         {
             print(T[i].name);
                 Transform tran = T[i].GetComponent<Transform>();
-                tran.localScale *= X_Scale / 32 * Screen.width;
-                tran.localScale *= Y_Scale / 32 * Screen.height;
+                tran.localScale *= X_Scale / 512 * Screen.width;
+                tran.localScale *= Y_Scale / 512 * Screen.height;
             
         }
 	}
