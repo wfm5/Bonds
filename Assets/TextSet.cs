@@ -23,7 +23,7 @@ public class TextSet : MonoBehaviour {
         last_update = Time.time;
         text = GetComponent <Text> ();
         rect_pos = GetComponent<RectTransform>();
-        bg_pos = GameObject.Find("text_BG").GetComponent<RectTransform>();
+        bg_pos = GameObject.Find("Text_BG").GetComponent<RectTransform>();
         one.x *= Screen.width; one.y *= Screen.height;
         two.x *= Screen.width; two *= Screen.height;
         three.x *= Screen.width; three *= Screen.height;
@@ -53,20 +53,20 @@ public class TextSet : MonoBehaviour {
             switch (set_pos)
             {
                 case 1:
-                    rect_pos.localPosition = one;
-                    bg_pos.localPosition = one;
+                    //rect_pos.localPosition = one;
+                    bg_pos.localPosition = new Vector3(one.x,one.y,-2);
                     break;
                 case 2:
-                    rect_pos.localPosition = two;
-                    bg_pos.localPosition = one;
+                   // rect_pos.localPosition = two;
+                    bg_pos.localPosition = two;
                     break;
                 case 3:
-                    rect_pos.localPosition = three;
-                    bg_pos.localPosition = one;
+                  //  rect_pos.localPosition = three;
+                    bg_pos.localPosition = three;
                     break;
                 case 4:
-                    rect_pos.localPosition = four;
-                    bg_pos.localPosition = one;
+                  //  rect_pos.localPosition = four;
+                    bg_pos.localPosition = four;
                     break;
                 default:
                     break;
@@ -75,8 +75,8 @@ public class TextSet : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
         if(flag_set == 1)
         {
             flag_set = 0;
