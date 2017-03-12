@@ -14,6 +14,7 @@ public class TextSet : MonoBehaviour {
     float last_update;
     Text text;
     RectTransform rect_pos;
+    RectTransform bg_pos;
     string buffer = "";
     int flag_set = 0;
 
@@ -22,6 +23,7 @@ public class TextSet : MonoBehaviour {
         last_update = Time.time;
         text = GetComponent <Text> ();
         rect_pos = GetComponent<RectTransform>();
+        bg_pos = GameObject.Find("text_BG").GetComponent<RectTransform>();
         one.x *= Screen.width; one.y *= Screen.height;
         two.x *= Screen.width; two *= Screen.height;
         three.x *= Screen.width; three *= Screen.height;
@@ -52,15 +54,19 @@ public class TextSet : MonoBehaviour {
             {
                 case 1:
                     rect_pos.localPosition = one;
+                    bg_pos.localPosition = one;
                     break;
                 case 2:
                     rect_pos.localPosition = two;
+                    bg_pos.localPosition = one;
                     break;
                 case 3:
                     rect_pos.localPosition = three;
+                    bg_pos.localPosition = one;
                     break;
                 case 4:
                     rect_pos.localPosition = four;
+                    bg_pos.localPosition = one;
                     break;
                 default:
                     break;
