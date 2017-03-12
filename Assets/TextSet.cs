@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class TextSet : MonoBehaviour {
 
     public int set_pos;
-    public float delay = 0.3f;
+    public float delay;
     public Vector3 one = new Vector3(-1 / 3f, 1 / 3f, 0);
     public Vector3 two = new Vector3(1 / 3f, 1 / 3f, 0);
     public Vector3 three = new Vector3(-1 / 3f, -1 / 3f, 0);

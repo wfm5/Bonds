@@ -7,13 +7,16 @@ using System.Collections.Generic;
 public class Globals : MonoBehaviour {
 
     public GameObject Messager;
-    public float delay = 0.3f;
+    public float delay;
+    public float chat_wait;
     TextSet textset;
-    public string HelloWorld = "Hello World";
+    public string HelloWorld = "!";
     Queue<string> BoxQ = new Queue<string>();
-        
-	// Use this for initialization
-	void Start () {
+    private float last_update;
+
+    // Use this for initialization
+    void Start () {
+        last_update = Time.time;
         textset = (TextSet) Messager.GetComponent("TextSet");
         if ( textset != null)
         {
@@ -28,16 +31,23 @@ public class Globals : MonoBehaviour {
         //print(BoxQ.ToArray().ToString());
     }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
 	    if(textset.isDone)
-        { 
-            if (BoxQ.Count > 0)
+        {
+            if (BoxQ.Count > 0 && (Time.time - last_update) > chat_wait)
             {
+                last_update = Time.time;
+                string buff = BoxQ.Dequeue();
                 textset.ClearText();
-                textset.SetParams(1, delay, BoxQ.Dequeue());
+                textset.SetParams(1, delay, buff);
             }
-            
+
         }
 	}
+
+    void OnApplicationExit()
+    {
+       // StopAllCoroutines();
+    }
 }
