@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour 
@@ -13,6 +14,13 @@ public class PlayerController : MonoBehaviour
 	public float horizontal;
 	public float speed;
 
+	public Follower esper;
+
+	public Transform groundCheck;
+
+	// ground check offsets
+	Vector2 offsetPos;
+	Vector2 offsetPos2;
 
 	// Use this for initialization
 	void Start () 
@@ -21,6 +29,12 @@ public class PlayerController : MonoBehaviour
 		speed = 10f;
 		jumpDir = new Vector2 (0, 1);
 		jumpForce = 6f;
+	
+		//esper = GameObject.Find ("Sphere").GetComponent<Follower> ();
+		groundCheck = transform.Find ("groundCheck");
+
+		offsetPos = new Vector2 (transform.position.x + 1.5f, transform.position.y);
+		//offsetPos2 = 
 	}
 	
 	// Update is called once per frame
@@ -30,11 +44,14 @@ public class PlayerController : MonoBehaviour
 	}
 	void FixedUpdate()
 	{
-		Debug.Log (GetComponent<Rigidbody2D> ().velocity);
+		isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+
+		isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+
+		isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 	}
 	void GetInput()
 	{
-
 		if (isGrounded) 
 		{
 			horizontal = Input.GetAxis ("Horizontal");
@@ -45,7 +62,6 @@ public class PlayerController : MonoBehaviour
 			if (Input.GetKeyDown(KeyCode.Space)) 
 			{
 				GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None;
-				Debug.Log ("oi");
 				myRigidbody.AddForce (jumpDir * jumpForce, ForceMode2D.Impulse);
 			}
 		} 
@@ -54,10 +70,35 @@ public class PlayerController : MonoBehaviour
 			transform.Translate (horizontal * Vector2.right * speed * Time.deltaTime);
 		}
 
+		if (Input.GetKeyDown (KeyCode.RightShift)) 
+		{
+			// try to check sides later
+
+			for (int i = 0; i < esper.objects.Length; i++)
+			{
+				// if the first object I get is a ledge
+				if (esper.objects [i].gameObject.tag == "ledge") 
+				{
+					esper.transform.position = esper.objects [i].gameObject.transform.position;
+
+					esper.State = Follower.state.ledgeState;
+					esper.GetObjectInFocus (esper.objects [i].gameObject);
+				}
+
+				// if the first object I get is moveable
+				if(esper.objects[i].gameObject.tag == "moveable")
+				{
+					esper.transform.position = esper.objects [i].gameObject.transform.position;
+
+					esper.State = Follower.state.moveState;
+					esper.GetObjectInFocus (esper.objects [i].gameObject);
+				}
+			}
+		}
 	}
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.tag == "ground") 
+		if (other.gameObject.layer == LayerMask.NameToLayer ("Ground"))
 		{
 			speed = 5f;
 			isGrounded = true;
@@ -71,7 +112,7 @@ public class PlayerController : MonoBehaviour
 	}
 	void OnCollisionExit2D(Collision2D other)
 	{
-		if (other.gameObject.tag == "ground") 
+		if (other.gameObject.layer == LayerMask.NameToLayer ("Ground")) 
 		{
 			speed = 5f;
 			isGrounded = false;
@@ -85,6 +126,16 @@ public class PlayerController : MonoBehaviour
 			speed = 0;
 			isGrounded = true;
 			GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezePosition;
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D col)
+	{
+		if (col.gameObject.tag == "ledge") 
+		{
+			speed = 3;
+			isGrounded = false;
+			GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None;
 		}
 	}
 }
